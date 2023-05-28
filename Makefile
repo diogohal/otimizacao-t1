@@ -5,7 +5,7 @@ producao.o: producao.c
 	gcc -c producao.c
 
 run: all
-	./producao < producao.lp && cat modelagem.lp
+	./producao < entrada_teste.lp && cat modelagem.lp 
 
 clean:
 	rm -f *.o *.temp

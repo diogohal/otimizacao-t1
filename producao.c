@@ -13,14 +13,26 @@ int main() {
     
     int n,m = 0;        // n = quantidade de produtos, m = quantidade de compostos
     float lucro = 0;    // Variavel auxiliar para o lucro da funcao de maximizacao
-    float p_valores[n]; // Valores de cada produto
-    float c_custos[m];  // Custos dos compostos
-    float c_limites[m]; // Limites dos compostos
-    float matriz[n][m]; // Matriz quantidade de cada composto por produto
+    scanf("%d %d", &n, &m);
+    float *p_valores = malloc(sizeof(float)*n); // Valores de cada produto
+    float *c_custos = malloc(sizeof(float)*m);  // Custos dos compostos
+    float *c_limites = malloc(sizeof(float)*m); // Limites dos compostos
+    float **matriz = malloc(sizeof(float*)*n); // Matriz quantidade de cada composto por produto
+    for(int i=0; i<n; i++){
+        matriz[i] = malloc(sizeof(float)*m);
 
+        if (matriz[i] == NULL){
+            perror("Eroor me alocar memória.\n");
+            return 1;
+        }
+    }
+
+    if (p_valores == NULL || c_custos == NULL || c_limites == NULL ){
+        perror("Erro na alocação de memória.");
+    }
+    
     // ----- LEITURA DOS DADOS DE ENTRADA ----- 
     // Quantidades de produtos e compostos
-    scanf("%d %d", &n, &m);
 
     // Valores dos produtos
     for(int i = 0; i < n ; i++)
@@ -31,10 +43,10 @@ int main() {
         scanf("%f %f", &c_custos[i], &c_limites[i]);
     
     // Quantidades de compostos por produtos
-    for(int i = 0; i < m ; i++)
-        for(int j = 0; j < m ; j++)
+    for(int i = 0; i < n ; i++)
+        for(int j = 0; j < m ; j++) {
             scanf("%f", &matriz[i][j]);
-
+        }
 
     // ----- ESCRITA NO ARQUIVO DE SAIDA -----
     // Escrita da funcao de maximizacao
@@ -68,6 +80,13 @@ int main() {
     }
 
     fclose(modelagem);
+    for(int i=0; i<n; i++)
+        free(matriz[i]);
+    free(matriz);
+    free(p_valores);
+    free(c_custos);
+    free(c_limites);
+    
     return 0;
 
 }
